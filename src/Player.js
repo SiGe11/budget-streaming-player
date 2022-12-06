@@ -1,4 +1,3 @@
-import Hls from 'hls.js';
 import React, { useState, useRef } from 'react';
 
 import HlsPlayer from './HlsPlayer';
@@ -9,26 +8,13 @@ function Player() {
     const [hlsUrl, setHlsUrl] = useState(
         'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8'
     );
-    const [destroy, setDestroy] = useState(false);
     const [HLSInstance, setHLSInstance] = useState();
     const [displayHLSPrperties, setDisplayHLSPrperties] = useState(false)
     const [selectedQuality, setSelectedQuality] = useState();
 
-    function _handleEnter(e: React.KeyboardEvent) {
+    function _handleEnter(e) {
         if (e.keyCode === 13) {
             setHlsUrl(inputRef?.current?.value ?? '');
-        }
-    }
-
-    function _handleDestroyClick() {
-        setDestroy(true);
-    }
-
-    function _handleToggleControls() {
-        if (playerRef?.current?.hasAttribute('controls')) {
-            playerRef.current.removeAttribute('controls');
-        } else {
-            playerRef?.current?.setAttribute('controls', 'true');
         }
     }
 
@@ -36,15 +22,20 @@ function Player() {
         setDisplayHLSPrperties(!displayHLSPrperties)
     }
 
-    function getHLSInstance(hlsInstance: Hls) {
+    function getHLSInstance(hlsInstance) {
         setHLSInstance(hlsInstance);
     }
 
-    function handleQuality(e: React.ChangeEvent) {
+    function handleQuality(e) {
         setSelectedQuality(Number(e.target.value));
         if(HLSInstance) HLSInstance.currentLevel = Number(e.target.value);
     }
 
+    function setUpPlayer() {
+        playerRef?.current?.setAttribute('controls', 'true');
+    }
+
+    setUpPlayer();
     return (
         <div>
             <div
@@ -77,37 +68,20 @@ function Player() {
                 />
             </div>
 
-            {!destroy ? (
-                <HlsPlayer
-                    loop={true}
-                    width="100%"
-                    height="auto"
-                    autoPlay
-                    playerRef={playerRef}
-                    src={hlsUrl}
-                    getHLSInstance={getHLSInstance}
-                />
-            ) : null}
+
+            <HlsPlayer
+                loop={true}
+                width="100%"
+                height="auto"
+                autoPlay
+                playerRef={playerRef}
+                src={hlsUrl}
+                getHLSInstance={getHLSInstance}
+            />
+
 
             <br />
 
-            <button
-                style={{
-                    padding: '5px 10px',
-                }}
-                onClick={_handleDestroyClick}
-            >
-                Destroy Video
-            </button>
-
-            <button
-                style={{
-                    padding: '5px 10px',
-                }}
-                onClick={_handleToggleControls}
-            >
-                Toggle Controls (via custom ref)
-            </button>
             <button
                 style={{
                     padding: '5px 10px',
@@ -128,7 +102,7 @@ function Player() {
                     <h3>HLS Details</h3>
                     <p>Total Levels: {HLSInstance?.levels?.length}</p>
                     <div>
-                        <p>Select Quoality</p>
+                        <p>Select Quality</p>
                         <select value={selectedQuality} defaultValue={`${HLSInstance?.currentLevel}`} onChange={handleQuality}>
                             {HLSInstance?.levels?.map((level, index) => {
                                 return <option value={`${index}`}>{level.bitrate}</option>

@@ -16,7 +16,7 @@ function HlsPlayer({
                             autoPlay,
                             getHLSInstance,
                             ...props
-                        }: HlsPlayerProps) {
+                        }) {
     const [hlsInstance, setHlsInstance] = useState();
 
     useEffect(() => {

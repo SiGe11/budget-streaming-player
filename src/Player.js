@@ -1,32 +1,17 @@
 import React from 'react';
+import ReactHlsPlayer from 'react-hls-player';
+
 
 function Player() {
-    return (
-        <div className="Player">
-            <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-            <video id="video"></video>
-            <script>
-                var video = document.getElementById('video');
-                if(Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource('https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8');
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED,function() {
-                video.play();
-            });
-            }
-                // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
-                // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
-                // This is using the built-in support of the plain video element, without using hls.js.
-                else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8';
-                video.addEventListener('canplay',function() {
-                video.play();
-            });
-            }
-            </script>
-        </div>
-    );
+        return (
+            <ReactHlsPlayer
+            src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+            autoPlay={false}
+            controls={true}
+            width="100%"
+            height="auto"
+        />
+    )
 }
 
 export default Player;

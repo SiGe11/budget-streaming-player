@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-import HlsPlayer from './HlsPlayer';
+import HlsPlayer from './components/HlsPlayer';
 
 function Player() {
     const playerRef = useRef(null);

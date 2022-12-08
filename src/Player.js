@@ -6,7 +6,7 @@ function Player() {
     const playerRef = useRef(null);
     const inputRef = useRef(null);
     const [hlsUrl, setHlsUrl] = useState(
-        'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8'
+        'http://lcss-cdn-01.duckdns.org/1/index.m3u8'
     );
     const [HLSInstance, setHLSInstance] = useState();
     const [displayHLSPrperties, setDisplayHLSPrperties] = useState(false)
